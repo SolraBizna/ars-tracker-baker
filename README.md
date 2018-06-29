@@ -3,6 +3,9 @@ This is a JavaScript library to "bake" [`ars-tracker`](https://github.com/Admira
 Example usage:
 
 ```js
+// uncomment if your package management system is anything fancier than
+//     <script src="et209.js"></script><script src="baker.js"></script>
+//let bakeArsTrackerSong = require("ars-tracker-baker");
 let baked = bakeArsTrackerSong(my_module, 0, {"headphones":headphones});
 let buffer = audioContext.createBuffer(2, baked.sampleCount, baked.sampleRate);
 if(buffer.copyToChannel) {
