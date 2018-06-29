@@ -1,0 +1,19 @@
+{
+  "name": "ars-tracker-baker",
+  "version": "0.1.0",
+  "description": "JavaScript to turn an ars-tracker module into an audio buffer",
+  "main": "baker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolraBizna/ars-tracker-baker"
+  },
+  "author": "Solra Bizna <solra@bizna.name>",
+  "license": "Zlib",
+  "bugs": {
+    "url": "https://github.com/SolraBizna/ars-tracker-baker/issues"
+  },
+  "homepage": "https://github.com/SolraBizna/ars-tracker-baker#readme"
+}
