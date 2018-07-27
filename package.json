@@ -1,6 +1,6 @@
 {
   "name": "ars-tracker-baker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript to turn an ars-tracker module into an audio buffer",
   "main": "baker.js",
   "scripts": {

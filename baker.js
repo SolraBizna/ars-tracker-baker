@@ -395,7 +395,7 @@
         };
         PlaybackState.prototype.renderFrame = function renderFrame() {
             --this.framesUntilNextTick;
-            if(this.framesUntilNextTick <= 0) {
+            while(this.framesUntilNextTick <= 0) {
                 this.processOneTick();
                 this.framesUntilNextTick += 150 / this.tempo;
             }
