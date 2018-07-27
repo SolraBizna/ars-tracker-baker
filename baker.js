@@ -258,6 +258,7 @@
             }
             this.channels[NOISE_CHANNEL_INDEX] = {"volume":15,
                                                   "instrument":null};
+            this.orderStartSamples = [];
             this.switchOrder(options.startOrder);
         };
         PlaybackState.prototype.switchOrder = function switchOrder(newOrderIndex) {
@@ -326,6 +327,15 @@
                 // this actually isn't implemented in tracklib yet, but we're
                 // assuming this will cut off all notes when it does occur
                 return;
+            }
+            if(this.nextRowIndex == 0) {
+                if(this.orderStartSamples[this.curOrderIndex] === undefined) {
+                    this.orderStartSamples[this.curOrderIndex] = this.sampleCount;
+                }
+                else if(this.loopEndSample === undefined) {
+                    this.loopStartSample = this.orderStartSamples[this.curOrderIndex];
+                    this.loopEndSample = this.sampleCount;
+                }
             }
             // Set aside these values so we continue processing the same row even
             // if we hit a `Bxx` (branch) effect.
@@ -488,12 +498,12 @@
                     options[opt] = DEFAULT_OPTIONS[opt];
             }
             let playbackState = new PlaybackState(module, song, options)
-            let orderStartSamples = [];
+            let initial = true;
             while(playbackState.curOrderIndex < song.orders.length
-                  && orderStartSamples[playbackState.curOrderIndex] === undefined
+                  && playbackState.loopEndSample === undefined
                   && !playbackState.halted) {
-                orderStartSamples[playbackState.curOrderIndex] = playbackState.sampleCount;
                 playbackState.renderOrder();
+                initial = false;
             }
             let ret = {
                 "sampleRate": ET209.SAMPLE_RATE
@@ -503,8 +513,8 @@
             if(options.loop && !playbackState.halted) {
                 // TODO: Improve handling of halt, particularly when looping is
                 // requested. Add an option to "force loop".
-                let loopLeft = orderStartSamples[playbackState.curOrderIndex];
-                let loopRight = playbackState.sampleCount;
+                let loopLeft = playbackState.loopStartSample;
+                let loopRight = playbackState.loopEndSample;
                 loopLeft = Math.floor(loopLeft + options.loopOverlapTime * ET209.SAMPLE_RATE + 0.5);
                 loopRight = Math.floor(loopRight + options.loopOverlapTime * ET209.SAMPLE_RATE + 0.5);
                 ret.loopLeft = loopLeft;
